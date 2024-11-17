@@ -73,6 +73,9 @@ const authController = {
                 req.body
             );
 
+            console.log(validatedData, "validated data");
+            console.log(req.body, "req body");
+
             //
             const user = await userModel.findOne({
                 $or: [
