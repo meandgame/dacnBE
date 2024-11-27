@@ -13,6 +13,13 @@ relationshipRoutes.get(
 
 // get follwing of someone
 relationshipRoutes.get(
+    "/getFriend",
+    authMiddleware.verifyToken,
+    relationshipController.getFriend
+);
+
+// get follwing of someone
+relationshipRoutes.get(
     "/getFollowing",
     authMiddleware.verifyToken,
     relationshipController.getFollowing
@@ -41,7 +48,7 @@ relationshipRoutes.post(
 
 // get all relationships
 relationshipRoutes.get(
-    "/getrelationshipsById",
+    "/getAllRelationships",
     relationshipController.getAllRelationships
 );
 

@@ -33,7 +33,7 @@ postCommentRoutes.post(
 
 // get all postComments
 postCommentRoutes.get(
-    "/getrelationshipsById",
+    "/getAllComments",
     postCommentController.getAllPostComments
 );
 

@@ -5,7 +5,7 @@ import { authMiddleware } from "../api/middlewares/auth.middleware";
 import userController from "../api/entities/user/user.controller";
 
 // get all user
-userRoutes.get("/getUserById", userController.getAllUsers);
+userRoutes.get("/getAllUsers", userController.getAllUsers);
 
 // get user by id
 userRoutes.get(
@@ -18,7 +18,7 @@ userRoutes.get(
 userRoutes.get(
     "/searchUser",
     authMiddleware.verifyToken,
-    userController.getUserById
+    userController.searchUser
 );
 
 export default userRoutes;

@@ -26,7 +26,7 @@ postRoutes.get(
     postController.getPostsOfOneUser
 );
 
-// get one post
+// get post of one user
 postRoutes.get(
     "/getPostsOfOneUser",
     authMiddleware.verifyToken,
@@ -64,6 +64,6 @@ postRoutes.post(
 );
 
 // get all posts
-postRoutes.get("/getrelationshipsById", postController.getAllPosts);
+postRoutes.get("/getAllPosts", postController.getAllPosts);
 
 export default postRoutes;
