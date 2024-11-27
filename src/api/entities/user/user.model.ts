@@ -45,4 +45,6 @@ const userSchema = new mongoose.Schema(
     { timestamps: true }
 );
 
+userSchema.index({ fullname: "text", username: "text" });
+
 export default mongoose.model(SCHEMANAME.USER, userSchema);

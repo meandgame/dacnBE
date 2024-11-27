@@ -27,3 +27,27 @@ export interface UserDocument extends Document {
     createdAt?: Date;
     updatedAt?: Date;
 }
+
+// POST
+export interface PostCreateInterface {
+    author: string | mongoose.Types.ObjectId;
+    title: string;
+    location: string;
+    collaborators: string[] | mongoose.Types.ObjectId[];
+    medias: {
+        type: string;
+        source: string;
+    }[];
+    isCommentAble?: Boolean;
+    isShowLike?: Boolean;
+    hashtags: string[];
+}
+
+// COMMENT
+export interface CommentCreateDataInterface {
+    post: string | mongoose.Types.ObjectId;
+    user: string | mongoose.Types.ObjectId;
+    parent?: string | mongoose.Types.ObjectId;
+    content: string;
+    replyTo?: string | mongoose.Types.ObjectId;
+}

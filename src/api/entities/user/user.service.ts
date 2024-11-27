@@ -1,8 +1,10 @@
 import userModel from "./user.model";
-import firebaseImageActions from "../../helpers/firebaseImageActions";
 import { UserCreateInterface, UserUpdateInterface } from "../../../core";
 
 const userService = {
+    getAllUsers: async () => {
+        return await userModel.find().lean();
+    },
     getUserByEmailPhoneUsername: async (input: string) => {
         return await userModel.findOne({
             $or: [{ email: input }, { phone: input }, { username: input }],
@@ -23,6 +25,14 @@ const userService = {
             { new: true }
         );
         return updatedUser;
+    },
+    searchUser: async (input: string) => {
+        const users = await userModel
+            .find({
+                $text: { $search: input },
+            })
+            .lean();
+        return users;
     },
 
     // uploadImagePortrait: async (idUser: string, file: Express.Multer.File) => {

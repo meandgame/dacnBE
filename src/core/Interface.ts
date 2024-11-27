@@ -6,8 +6,8 @@ export interface SyntaxErrorWithStatus extends SyntaxError {
 export interface UserJwtInterface {
     id: string;
     email: string;
-    isAdmin: boolean;
-    isActive: boolean;
+    phone: string;
+    username: string;
     iat?: number;
     exp?: number;
 }

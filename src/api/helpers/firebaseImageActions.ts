@@ -50,7 +50,7 @@ const firebaseImageActions = {
         }
     },
 
-    deleteImageFromFireBase: async (downloadUrl: string) => {
+    deleteFileFromFireBase: async (downloadUrl: string) => {
         const storageFB = getStorage();
         const fileRef = ref(storageFB, downloadUrl);
         await deleteObject(fileRef);
