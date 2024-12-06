@@ -27,15 +27,10 @@ const postCommentService = {
             });
         }
 
-        // update post cmtnum
-        await postModel.findByIdAndUpdate(data.post, {
-            $inc: { commentNum: 1 },
-        });
-
         // update post score
         await postModel.findByIdAndUpdate(
             data.post,
-            { $inc: { likeNum: 1, score: 2 } }, // Tăng 1
+            { $inc: { commentNum: 1, score: 2 } }, // Tăng 1
             { new: true }
         );
 
@@ -45,7 +40,7 @@ const postCommentService = {
         const comments = await postCommentModel
             .find({
                 post: postId, // Chỉ lấy comment của bài post cụ thể
-                parent: null, // Comment không có parent (comment gốc)
+                parent: { $in: ["", null, undefined] }, // Comment không có parent (comment gốc)
             })
             .sort({ createdAt: -1 }) // Sắp xếp theo thời gian giảm dần (mới nhất trước)
             .skip(skip)

@@ -36,6 +36,7 @@ const postService = {
             .sort({ createdAt: -1 }) // Sắp xếp bài viết mới nhất
             .limit(limit)
             .populate("author collaborators")
+            .lean()
             .exec();
 
         // Nếu chưa đủ bài viết, thêm bài viết có `score` cao
@@ -48,18 +49,48 @@ const postService = {
                 .sort({ score: -1 }) // Lấy bài viết có score cao
                 .limit(limit - posts.length)
                 .populate("author collaborators")
+                .lean()
                 .exec();
 
             posts.push(...extraPosts);
         }
 
-        return posts;
+        // Lấy danh sách các bài viết mà user đã like
+        const likedPosts = await postInteractedModel
+            .find({ user: userId })
+            .select("post")
+            .lean();
+
+        // Chuyển danh sách các postId mà user đã like sang một tập hợp để kiểm tra nhanh
+        const filteredPosts = likedPosts.filter(
+            (interaction) => interaction.post
+        );
+        const likedPostIds = new Set(
+            filteredPosts.map((interaction) => interaction.post!.toString())
+        );
+
+        const postsWithLikeStatus = posts.map((post) => ({
+            ...post,
+            isLiked: likedPostIds.has(post._id.toString()),
+        }));
+
+        return postsWithLikeStatus;
     },
-    getOnePostById: async (postId: string) => {
-        const post = await postModel
+    getOnePostById: async (postId: string, userId: string) => {
+        let post = await postModel
             .findById(postId)
             .populate("author collaborators")
+            .lean()
             .exec();
+
+        const postLiked = await postInteractedModel.findOne({
+            post: postId,
+            user: userId,
+        });
+
+        post = { ...post, isLiked: !!postLiked } as typeof post & {
+            isLiked: boolean;
+        };
 
         return post;
     },
@@ -67,9 +98,29 @@ const postService = {
         const posts = await postModel
             .find({ author: userId })
             .populate("author collaborators")
+            .lean()
             .exec();
 
-        return posts;
+        // Lấy danh sách các bài viết mà user đã like
+        const likedPosts = await postInteractedModel
+            .find({ user: userId })
+            .select("post")
+            .lean();
+
+        // Chuyển danh sách các postId mà user đã like sang một tập hợp để kiểm tra nhanh
+        const filteredPosts = likedPosts.filter(
+            (interaction) => interaction.post
+        );
+        const likedPostIds = new Set(
+            filteredPosts.map((interaction) => interaction.post!.toString())
+        );
+
+        const postsWithLikeStatus = posts.map((post) => ({
+            ...post,
+            isLiked: likedPostIds.has(post._id.toString()),
+        }));
+
+        return postsWithLikeStatus;
     },
     uploadPostFiles: async (medias: Express.Multer.File[]) => {
         const dataRes: {

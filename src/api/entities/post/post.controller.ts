@@ -38,7 +38,10 @@ const postController = {
             }
 
             // get
-            const post = await postService.getOnePostById(postId);
+            const post = await postService.getOnePostById(
+                postId,
+                req.user?.id!
+            );
 
             return res.status(STATUSCODE.OK).json(post);
         } catch (error) {

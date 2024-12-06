@@ -1,6 +1,5 @@
 import mongoose from "mongoose";
 import { SCHEMANAME } from "../../../core";
-import { min } from "moment-timezone";
 
 const postSchema = new mongoose.Schema(
     {
