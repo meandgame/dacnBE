@@ -40,7 +40,7 @@ const postCommentService = {
         const comments = await postCommentModel
             .find({
                 post: postId, // Chỉ lấy comment của bài post cụ thể
-                parent: { $in: ["", null, undefined] }, // Comment không có parent (comment gốc)
+                parent: null, // Comment không có parent (comment gốc)
             })
             .sort({ createdAt: -1 }) // Sắp xếp theo thời gian giảm dần (mới nhất trước)
             .skip(skip)
