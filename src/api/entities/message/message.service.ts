@@ -20,7 +20,7 @@ const messageService = {
                 conversation: conversationId,
                 createdAt: { $lt: lastMessage.createdAt }, // Các message tạo trước thời điểm message hiện tại
             })
-            .sort({ createdAt: -1 }) // Sắp xếp theo thời gian giảm dần (mới nhất trước)
+            .sort({ createdAt: 1 }) // Sắp xếp theo thời gian tangw dan (cu nhat truoc)
             .limit(20)
             .populate("sender forwardFrom")
             .exec(); // Giới hạn 20 tin nhắn
@@ -30,7 +30,7 @@ const messageService = {
     getAllMessageOfAnConversation: async (conversationId: string) => {
         const messages = await messageModel
             .find({ conversation: conversationId })
-            .sort({ createdAt: -1 })
+            .sort({ createdAt: 1 })
             .populate("sender forwardFrom")
             .exec();
 
