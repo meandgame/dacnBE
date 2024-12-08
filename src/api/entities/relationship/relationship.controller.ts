@@ -13,7 +13,7 @@ const relationshipController = {
         try {
             // from query
             const user1 = req.query.user1?.toString().trim();
-            const user2 = req.query.user1?.toString().trim();
+            const user2 = req.query.user2?.toString().trim();
 
             // check
             if (!user1 || !user2) {
