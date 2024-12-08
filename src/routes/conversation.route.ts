@@ -5,6 +5,12 @@ import conversationController from "../api/entities/conversation/conversation.co
 const conversationRoutes = express.Router();
 
 conversationRoutes.get(
+    "/getConversationById",
+    authMiddleware.verifyToken,
+    conversationController.getConversationById
+);
+
+conversationRoutes.get(
     "/getConversationOfOneUser",
     authMiddleware.verifyToken,
     conversationController.getConversationOfOneUser

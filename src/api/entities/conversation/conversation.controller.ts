@@ -4,6 +4,31 @@ import conversationService from "./conversation.service";
 import { STATUSCODE } from "../../../core";
 
 const conversationController = {
+    // getConversationById
+    getConversationById: async (
+        req: Request,
+        res: Response,
+        next: NextFunction
+    ) => {
+        try {
+            // require: userId from query
+            const conversationId = req.query.conversationId?.toString().trim();
+            if (!conversationId) {
+                return res.status(STATUSCODE.BAD).json({
+                    msg: "Cần có conversationId từ query",
+                });
+            }
+
+            const conversation = await conversationService.getConversationById(
+                conversationId
+            );
+
+            return res.status(STATUSCODE.OK).json(conversation);
+        } catch (error) {
+            next(error);
+        }
+    },
+
     // getConversationOfOneUser
     getConversationOfOneUser: async (
         req: Request,
