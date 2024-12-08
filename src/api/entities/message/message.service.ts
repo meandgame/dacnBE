@@ -114,6 +114,8 @@ const messageService = {
         if (message && message.medias && message.medias.length > 0) {
             const mediaSources = message.medias.map((media) => media.source);
             await postService.deleteImages(mediaSources);
+            message.medias.splice(0, message.medias.length);
+            await message.save();
         }
 
         return message;
